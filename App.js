@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.js
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/Ionicons';
+import HomeScreen from './screens/HomeScreen';
+import MyCabScreen from './screens/MyCabScreen';
+import CabDetailScreen from './screens/CabDetailScreen';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function HomeStack() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="CabsList" component={HomeScreen} options={{ title: 'Available Cabs' }} />
+      <Stack.Screen name="CabDetail" component={CabDetailScreen} options={{ title: 'Cab Details' }} />
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'My Cab') {
+              iconName = focused ? 'car' : 'car-outline';
+            }
+
+            // You can return any component that you like here!
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="My Cab" component={MyCabScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
