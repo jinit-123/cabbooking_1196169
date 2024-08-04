@@ -33,8 +33,6 @@ export default function App() {
             } else if (route.name === 'My Cab') {
               iconName = focused ? 'car' : 'car-outline';
             }
-
-            // You can return any component that you like here!
             return <Icon name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: 'tomato',
