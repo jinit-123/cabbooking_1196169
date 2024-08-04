@@ -12,18 +12,16 @@ export default function CabDetailScreen({ route, navigation }) {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        // Fetch total bookings for the current user
         const userBookingsQuery = query(
           collection(db, 'bookings'),
-          where('userId', '==', 'currentUserId') // Use actual user ID
+          where('userId', '==', 'currentUserId') 
         );
         const userBookingsSnapshot = await getDocs(userBookingsQuery);
         setTotalBookings(userBookingsSnapshot.size);
 
-        // Fetch specific cab bookings for the current user
         const cabBookingsQuery = query(
           collection(db, 'bookings'),
-          where('userId', '==', 'currentUserId'), // Use actual user ID
+          where('userId', '==', 'currentUserId'),
           where('cabId', '==', cab.id)
         );
         const cabBookingsSnapshot = await getDocs(cabBookingsQuery);
@@ -52,11 +50,10 @@ export default function CabDetailScreen({ route, navigation }) {
         cabId: cab.id,
         companyName: cab.companyName,
         carModel: cab.carModel,
-        userId: 'currentUserId', // Replace 'currentUserId' with actual user ID
-        timestamp: new Date(), // Track when the cab was booked
+        userId: 'currentUserId', 
+        timestamp: new Date(), 
       });
 
-      // Update local state for booking count
       setTotalBookings(totalBookings + 1);
       setSpecificCabBookings(specificCabBookings + 1);
 
